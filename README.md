@@ -10,6 +10,11 @@ Transform your forgotten notes into epic forest battles. This authentic BBS-styl
 
 ![LOOV gameplay](docs/images/gameplay.gif)
 
+### Videos
+
+- [Legend of Obsidian Vault - INTRO](https://youtu.be/rF0p3Tpezcw?si=QTlF3Axj_TB2-jNG)
+- [Fighting My Notes, Then Fighting a Master | LOOV](https://youtu.be/NiY4NYl1Wbs?si=HI7FuXt8kCKZ3moU)
+
 ## Quick Start
 
 ### Prerequisites
