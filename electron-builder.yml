@@ -1,5 +1,5 @@
-appId: com.snedea.legend-of-obsidian-vault
-productName: Legend of the Obsidian Vault
+appId: com.snedea.loov
+productName: LOOV
 copyright: Copyright 2025
 
 directories:
@@ -13,15 +13,14 @@ mac:
   darkModeSupport: true
 
 dmg:
-  title: Legend of the Obsidian Vault
-  artifactName: LOV-${version}.${ext}
+  title: LOOV
+  artifactName: LOOV-${version}.${ext}
 
 files:
   - electron/dist/**/*
   - frontend/dist/**/*
   - "!node_modules"
   - "!backend"
-  - "!screens"
   - "!saves"
   - "!*.py"
 
@@ -33,7 +32,5 @@ extraResources:
       - "obsidian.py"
       - "brainbot.py"
       - "fantasy_translator.py"
-      - "simple_cache.py"
       - "backend/**/*.py"
-      - "saves/"
       - "demo_vault/"

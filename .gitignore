@@ -160,8 +160,8 @@ cython_debug/
 .idea/
 
 # Game-specific ignores
-saves/*.db*
-saves/backups/
+saves/
+backend/saves/
 *.log
 
 # Node / Electron

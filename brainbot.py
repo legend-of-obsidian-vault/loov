@@ -1110,7 +1110,7 @@ Write ONLY the narrative description, nothing else."""
 class OllamaProvider(AIProvider):
     """Ollama provider - uses remote Ollama server for GPU-accelerated inference"""
 
-    def __init__(self, host: str = "http://100.86.138.79:11434", model: str = "gemma3:4b"):
+    def __init__(self, host: str = "http://localhost:11434", model: str = "gemma3:4b"):
         self._host = host.rstrip("/")
         self._model = model
         self._available = False

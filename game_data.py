@@ -53,7 +53,7 @@ class GameSettings:
     ai_provider: AIProviderType = AIProviderType.OLLAMA
     claude_api_key: str = ""  # For CLAUDE_API mode
     claude_model: str = "claude-sonnet-4-20250514"  # Default Claude model
-    ollama_host: str = "http://100.86.138.79:11434"  # Ollama server (bucky via Tailscale)
+    ollama_host: str = "http://localhost:11434"
     ollama_model: str = "gemma3:4b"  # Ollama model name
 
     @classmethod
@@ -74,7 +74,7 @@ class GameSettings:
                     ai_provider=AIProviderType(data.get("ai_provider", "tinyllama")),
                     claude_api_key=data.get("claude_api_key", ""),
                     claude_model=data.get("claude_model", "claude-sonnet-4-20250514"),
-                    ollama_host=data.get("ollama_host", "http://100.86.138.79:11434"),
+                    ollama_host=data.get("ollama_host", "http://localhost:11434"),
                     ollama_model=data.get("ollama_model", "gemma3:4b")
                 )
             except (json.JSONDecodeError, ValueError):
