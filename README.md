@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/icon.png" alt="LOOV" width="128" />
+</p>
+
 # LOOV: Legend of the Obsidian Vault
 
 > A LORD-inspired knowledge RPG that transforms your Obsidian vault into a living dungeon.

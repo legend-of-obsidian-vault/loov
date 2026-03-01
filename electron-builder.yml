@@ -7,10 +7,12 @@ directories:
 
 mac:
   category: public.app-category.games
+  icon: build/icon.icns
   target:
     - dmg
     - zip
   darkModeSupport: true
+  identity: null
 
 dmg:
   title: LOOV
