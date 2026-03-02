@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
 import type { Character, CombatState } from '../services/api';
 import * as api from '../services/api';
+import { setTimeOfDay } from '../canvas/environment';
 
 interface GameContextValue {
   player: Character | null;
@@ -15,9 +16,16 @@ interface GameContextValue {
 const GameContext = createContext<GameContextValue | null>(null);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [player, setPlayer] = useState<Character | null>(null);
+  const [player, setPlayerRaw] = useState<Character | null>(null);
   const [combat, setCombat] = useState<CombatState | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
+
+  const setPlayer = useCallback((p: Character | null) => {
+    setPlayerRaw(p);
+    if (p) {
+      setTimeOfDay(p.time_of_day);
+    }
+  }, []);
 
   const refreshPlayer = useCallback(async () => {
     try {
@@ -26,7 +34,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     } catch {
       // No player selected
     }
-  }, []);
+  }, [setPlayer]);
 
   const notify = useCallback((msg: string) => {
     setNotification(msg);

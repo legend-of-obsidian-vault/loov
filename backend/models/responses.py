@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import Literal, Optional
 from pydantic import BaseModel
 
 
@@ -64,6 +64,7 @@ class CharacterResponse(BaseModel):
     inn_room: bool
     flirted_violet: bool
     laid_today: bool
+    time_of_day: Literal['dawn', 'day', 'dusk', 'night']
 
 
 class CharacterListResponse(BaseModel):

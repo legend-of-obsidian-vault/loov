@@ -19,3 +19,15 @@ export function getSessionEnvironment(): { time: TimeOfDay; weather: Weather } {
   sessionStorage.setItem('lov-env', JSON.stringify(env));
   return env;
 }
+
+export function setTimeOfDay(time: TimeOfDay): void {
+  const stored = sessionStorage.getItem('lov-env');
+  let env = { time, weather: pick(WEATHERS) };
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed.weather) env = { time, weather: parsed.weather };
+    } catch { /* use fresh weather */ }
+  }
+  sessionStorage.setItem('lov-env', JSON.stringify(env));
+}

@@ -60,6 +60,7 @@ def _player_to_response(player) -> CharacterResponse:
         inn_room=player.inn_room,
         flirted_violet=player.flirted_violet,
         laid_today=player.laid_today,
+        time_of_day=player.time_of_day,
     )
 
 
@@ -99,7 +100,8 @@ def select_character(name: str) -> CharacterResponse:
 
 @router.get("/current")
 def get_current_character() -> CharacterResponse:
-    player = session.player
-    if not player:
+    try:
+        player = session.require_player()
+    except ValueError:
         raise HTTPException(404, "No character selected")
     return _player_to_response(player)

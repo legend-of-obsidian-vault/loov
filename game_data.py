@@ -476,8 +476,8 @@ class Character:
             'level_up_text': MASTERS.get(old_level, {}).get('level_up_text', f"You are now level {self.level}!")
         }
 
-    def daily_reset(self):
-        """Reset daily counters"""
+    def daily_reset(self) -> bool:
+        """Reset daily counters. Returns True if a new day started."""
         today = str(date.today())
         if self.last_played != today:
             self.forest_fights = 15
@@ -487,12 +487,32 @@ class Character:
             self.alive = True
             self.skill_uses = CLASS_TYPES[self.class_type]['daily_uses']
             self.last_played = today
+            self.days_played += 1
 
             # Bank interest (10% daily)
             self.bank_gold = int(self.bank_gold * 1.10)
 
             # Reset daily skill usage
             self.skills_used_today = 0
+
+            # Reset daily IGM counters
+            self.cavern_searches_today = 0
+            self.werewolf_uses_today = 0
+            self.bank_robberies_today = 0
+            return True
+        return False
+
+    @property
+    def time_of_day(self) -> str:
+        """Compute time of day from remaining forest fights (LORD-style progression)."""
+        f = self.forest_fights
+        if f >= 11:
+            return 'dawn'
+        if f >= 5:
+            return 'day'
+        if f >= 1:
+            return 'dusk'
+        return 'night'
 
     def get_skill_points(self, skill_type: str) -> int:
         """Get skill points for specific type"""
@@ -720,7 +740,19 @@ class GameDatabase:
                 ("dragon_kills", "INTEGER DEFAULT 0"),
                 ("times_won_game", "INTEGER DEFAULT 0"),
                 ("total_kills", "INTEGER DEFAULT 0"),
-                ("hall_of_honours_entry", "TEXT DEFAULT ''")
+                ("hall_of_honours_entry", "TEXT DEFAULT ''"),
+                ("fairy_lore", "BOOLEAN DEFAULT 0"),
+                ("spirit_level", "TEXT DEFAULT 'normal'"),
+                ("cavern_searches_today", "INTEGER DEFAULT 0"),
+                ("children", "INTEGER DEFAULT 0"),
+                ("horse_name", "TEXT DEFAULT ''"),
+                ("werewolf_uses_today", "INTEGER DEFAULT 0"),
+                ("bank_robberies_today", "INTEGER DEFAULT 0"),
+                ("successful_robberies", "INTEGER DEFAULT 0"),
+                ("stored_gold", "INTEGER DEFAULT 0"),
+                ("stored_gems", "INTEGER DEFAULT 0"),
+                ("is_werewolf", "BOOLEAN DEFAULT 0"),
+                ("werewolf_transformations", "INTEGER DEFAULT 0"),
             ]
 
             # Add missing columns
@@ -783,7 +815,19 @@ class GameDatabase:
                     dragon_kills INTEGER DEFAULT 0,
                     times_won_game INTEGER DEFAULT 0,
                     total_kills INTEGER DEFAULT 0,
-                    hall_of_honours_entry TEXT DEFAULT ''
+                    hall_of_honours_entry TEXT DEFAULT '',
+                    fairy_lore BOOLEAN DEFAULT 0,
+                    spirit_level TEXT DEFAULT 'normal',
+                    cavern_searches_today INTEGER DEFAULT 0,
+                    children INTEGER DEFAULT 0,
+                    horse_name TEXT DEFAULT '',
+                    werewolf_uses_today INTEGER DEFAULT 0,
+                    bank_robberies_today INTEGER DEFAULT 0,
+                    successful_robberies INTEGER DEFAULT 0,
+                    stored_gold INTEGER DEFAULT 0,
+                    stored_gems INTEGER DEFAULT 0,
+                    is_werewolf BOOLEAN DEFAULT 0,
+                    werewolf_transformations INTEGER DEFAULT 0
                 )
             """)
 
@@ -809,6 +853,9 @@ class GameDatabase:
         "death_knight_points", "mystical_points", "thieving_points",
         "learned_spells", "skills_used_today",
         "dragon_kills", "times_won_game", "total_kills", "hall_of_honours_entry",
+        "fairy_lore", "spirit_level", "cavern_searches_today", "children", "horse_name",
+        "werewolf_uses_today", "bank_robberies_today", "successful_robberies",
+        "stored_gold", "stored_gems", "is_werewolf", "werewolf_transformations",
     ]
 
     def save_player(self, player: Character):

@@ -29,6 +29,8 @@ class GameSession:
     def select_player(self, name: str) -> Optional[Character]:
         player = self.db.load_player(name)
         if player:
+            if player.daily_reset():
+                self.db.save_player(player)
             self.player = player
         return player
 
@@ -42,6 +44,8 @@ class GameSession:
     def require_player(self) -> Character:
         if self.player is None:
             raise ValueError("No player selected")
+        if self.player.daily_reset():
+            self.db.save_player(self.player)
         return self.player
 
 

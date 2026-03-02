@@ -93,6 +93,7 @@ export interface Character {
   inn_room: boolean;
   flirted_violet: boolean;
   laid_today: boolean;
+  time_of_day: 'dawn' | 'day' | 'dusk' | 'night';
 }
 
 export function createCharacter(name: string, gender: string, classType: string) {
